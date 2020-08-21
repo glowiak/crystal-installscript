@@ -7,7 +7,7 @@ JRE_X64='http://mirr2.crystal-launcher.pl/jre/jre-8u181-linux-x64.tar.gz'
 
 ICON='http://main.crystal-launcher.pl/releases/icon.png'
 
-LAUNCHER_SCRIPT='https://raw.githubusercontent.com/leszczu8023/CrystalLauncher-InstallScript/master/crystallauncher.sh'
+LAUNCHER_SCRIPT='https://raw.githubusercontent.com/glowiak/crystal-installscript/master/crystallauncher.sh'
 
 LAUNCHER_JAR='http://main.crystal-launcher.pl/releases/other/CrystalLauncher.jar'
 ACTIVATOR="[Desktop Entry]\n
