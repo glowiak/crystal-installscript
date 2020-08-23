@@ -120,16 +120,16 @@ function setupFreeBSD {
 	pkgInstaIfNe openjfx8-devel
 	pkgInstaIfNe minecraft-client
 	
-	echo "customjvmdir.path=/usr/local/share/minecraft-client/minecraft-runtime">"$INSTALL_DIR/bin/config.prop"
-	echo "customjvmdir.use=true">>"$INSTALL_DIR/bin/config.prop"
+	echo "customjvmdir_v2.path=/usr/local/share/minecraft-client/minecraft-runtime">"$INSTALL_DIR/bin/config.prop"
+	echo "customjvmdir_v2.use=true">>"$INSTALL_DIR/bin/config.prop"
 }
 
 function setupOpenBSD {
 	echo "Installing Minecraft Package...enter root password if needed"
 	runAsRoot pkg_add minecraft
 	echo "Type in terminal 'minecraft' and configure it or Crystal Launcher don't work"
-	echo "customjvmdir.path=/usr/local/bin/minecraft">"$INSTALL_DIR/bin/config.prop"
-	echo "customjvmdir.use=true">>"$INSTALL_DIR/bin/config.prop"
+	echo "customjvmdir_v2.path=/usr/local/bin/minecraft">"$INSTALL_DIR/bin/config.prop"
+	echo "customjvmdir_v2.use=true">>"$INSTALL_DIR/bin/config.prop"
 }
 
 function distroSpecSetup {
