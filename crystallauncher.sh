@@ -72,13 +72,20 @@ function osType {
 			LINUX=0
 			which pkg > /dev/null && { echo fbsdpkg; return; }
 			;;
+		OpenBSD)
+			OBSD=1
+			FBSD=0
+			LINUX=0
+			which pkg_add > /dev/null && { echo obsdpkg; return; }
+			;;
 		*)
+			OBSD=0
 			FBSD=0
 			LINUX=0
 	esac
 	
-	if [[ "$LINUX" -ne 1 && "$FBSD" -ne 1 ]]; then
-		echo "This Crystal Launcher version is designed for running only on Linux and FreeBSD operating systems..."
+	if [[ "$LINUX" -ne 1 && "$FBSD" -ne 1 && "OBSD" -ne 1 ]]; then
+		echo "This Crystal Launcher version is designed for running only on Linux and FreeBSD, and OpenBSD operating systems..."
 		exit 1
 	fi
 }
@@ -117,6 +124,14 @@ function setupFreeBSD {
 	echo "customjvmdir.use=true">>"$INSTALL_DIR/bin/config.prop"
 }
 
+function setupOpenBSD {
+	echo "Installing Minecraft Package...enter root password if needed"
+	runAsRoot pkg_add minecraft
+	echo "Type in terminal 'minecraft' and configure it or Crystal Launcher don't work"
+	echo "customjvmdir.path=/usr/local/bin/minecraft">"$INSTALL_DIR/bin/config.prop"
+	echo "customjvmdir.use=true">>"$INSTALL_DIR/bin/config.prop"
+}
+
 function distroSpecSetup {
 	OS=`osType`
 	echo "Detected OS: $OS"
@@ -135,6 +150,9 @@ function distroSpecSetup {
 			;;
 		fbsdpkg)
 			setupFreeBSD;
+			;;
+		obsdpkg)
+			setupOpenBSD;
 			;;
 		*)
 			notImplemented;
@@ -237,6 +255,12 @@ function runCrystal {
 				(cd "$INSTALL_DIR" && exec java -jar "$INSTALL_DIR/bin/bootstrap.jar") > /dev/null
 			fi
 			;;
+		obsdpkg)
+			if [[ $DEBUG -ne 0 ]]; then
+				(cd "$INSTALL_DIR" && /usr/local/jdk-1.8.0/bin/java -jar "$INSTALL_DIR/bin/bootstrap.jar")
+			else
+				(cd "$INSTALL_DIR" && /usr/local/jdk-1.8.0/bin/java -jar "$INSTALL_DIR/bin/bootstrap.jar") > /dev/null
+			fi
 		*)
 			export JAVA_HOME=$INSTALL_DIR/runtime/jre$JAVA_VERSION
                 	export PATH=$JAVA_HOME/bin:$PATH
