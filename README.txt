@@ -1,4 +1,4 @@
-This Crystal Launcher Installer works on old versions of Linux (yay!)
+This Crystal Launcher Installer works on old versions of Linux and OpenBSD (yay!)
 
 
 
