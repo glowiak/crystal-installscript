@@ -9,6 +9,8 @@ curl -k -L https://raw.githubusercontent.com/glowiak/crystal-installscript/maste
 
 INSTALL AND HAVE FUN :D
 
+TO INSTALL IT ON OPENBSD TYPE IN TERMINAL AS ROOT:
+# pkg_add bash
 
 CRYSTAL'S WEBSITE:
 http://crystal-launcher.pl or http://crystal-launcher.net
