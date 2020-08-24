@@ -12,5 +12,9 @@ INSTALL AND HAVE FUN :D
 TO INSTALL IT ON OPENBSD TYPE IN TERMINAL AS ROOT:
 # pkg_add bash
 
+WHY DON'T WORK ON OPENBSD:
+-bash on openbsd in broken
+-openjfx in not supported on openbsd
+
 CRYSTAL'S WEBSITE:
 http://crystal-launcher.pl or http://crystal-launcher.net
