@@ -72,20 +72,13 @@ function osType {
 			LINUX=0
 			which pkg > /dev/null && { echo fbsdpkg; return; }
 			;;
-		OpenBSD)
-			OBSD=1
-			FBSD=0
-			LINUX=0
-			which pkg_add > /dev/null && { echo obsdpkg; return; }
-			;;
 		*)
-			OBSD=0
 			FBSD=0
 			LINUX=0
 	esac
 	
-	if [[ "$LINUX" -ne 1 && "$FBSD" -ne 1 && "OBSD" -ne 1 ]]; then
-		echo "This Crystal Launcher version is designed for running only on Linux and FreeBSD, and OpenBSD operating systems..."
+	if [[ "$LINUX" -ne 1 && "$FBSD" -ne 1 ]]; then
+		echo "This Crystal Launcher version is designed for running only on Linux and FreeBSD operating systems..."
 		exit 1
 	fi
 }
@@ -120,16 +113,15 @@ function setupFreeBSD {
 	pkgInstaIfNe openjfx8-devel
 	pkgInstaIfNe minecraft-client
 	
-	echo "customjvmdir_v2.path=/usr/local/share/minecraft-client/minecraft-runtime">"$INSTALL_DIR/bin/config.prop"
-	echo "customjvmdir_v2.use=true">>"$INSTALL_DIR/bin/config.prop"
+	echo "After installation launcher don't work, edit config.prop to set up launcher"
+	echo "customjvmdir.path=/usr/local/share/minecraft-client/minecraft-runtime">"$INSTALL_DIR/bin/config.prop"
+	echo "customjvmdir.use=true">>"$INSTALL_DIR/bin/config.prop"
 }
 
-function setupOpenBSD {
-	echo "Installing Minecraft Package...enter root password if needed"
-	runAsRoot pkg_add minecraft
-	echo "Type in terminal 'minecraft' and configure it or Crystal Launcher don't work"
-	echo "customjvmdir_v2.path=/usr/local/bin/minecraft">"$INSTALL_DIR/bin/config.prop"
-	echo "customjvmdir_v2.use=true">>"$INSTALL_DIR/bin/config.prop"
+function setupArch {
+	echo "Playing PacMan..."
+	echo "Installing Java 8 JFX for ArchLinux..."
+	runAsRoot pacman -S java8-openjfx
 }
 
 function distroSpecSetup {
@@ -143,16 +135,13 @@ function distroSpecSetup {
 			echo 'nothing to do with packages this time :)'
 			;;
 		archlinux)
-			notImplemented;
+			setupArch;
 			;;
 		debian)
 			setupDebian;
 			;;
 		fbsdpkg)
 			setupFreeBSD;
-			;;
-		obsdpkg)
-			setupOpenBSD;
 			;;
 		*)
 			notImplemented;
@@ -255,12 +244,6 @@ function runCrystal {
 				(cd "$INSTALL_DIR" && exec java -jar "$INSTALL_DIR/bin/bootstrap.jar") > /dev/null
 			fi
 			;;
-		obsdpkg)
-			if [[ $DEBUG -ne 0 ]]; then
-				(cd "$INSTALL_DIR" && /usr/local/jdk-1.8.0/bin/java -jar "$INSTALL_DIR/bin/bootstrap.jar")
-			else
-				(cd "$INSTALL_DIR" && /usr/local/jdk-1.8.0/bin/java -jar "$INSTALL_DIR/bin/bootstrap.jar") > /dev/null
-			fi
 		*)
 			export JAVA_HOME=$INSTALL_DIR/runtime/jre$JAVA_VERSION
                 	export PATH=$JAVA_HOME/bin:$PATH
