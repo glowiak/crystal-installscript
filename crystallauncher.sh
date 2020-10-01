@@ -28,6 +28,8 @@ function runAsRoot {
 		$*
 	elif [[ -x "$(command -v sudo)" ]]; then
 		sudo $*
+	elif [[ -x "$(command -v doas)" ]]; then
+		doas $*
 	else
 		su root -c "$*"
 	fi
