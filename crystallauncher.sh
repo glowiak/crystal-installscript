@@ -41,13 +41,6 @@ function downloadFile {
     # Fixy dla starych systemow (ubuntu 10.04 idp.)
     # wsparcie dla FreeBSD fetch(3)
     
-    	if [[ -x "$(command -v fetch)" ]]; then
-		fetch --no-verify-peer -o "$2" "$1"
-		if [[ $? -ne 0 ]]; then
-			echo "Downloading launcher failed!!!";
-			exit 1;
-		fi
-	fi
 	if [[ -x "$(command -v wget)" ]]; then
 		wget --no-check-certificate "$1" -O "$2";
 		if [[ $? -ne 0 ]]; then 
