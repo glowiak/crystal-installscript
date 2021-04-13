@@ -114,7 +114,7 @@ function setupFreeBSD {
 	echo "Checking packages... Please enter root password if needed"
 	pkgInstaIfNe openjdk8
 	echo "Installing deleted port openjfx8-devel from pkg(8) archive..."
-	downloadFile https://sourceforge.net/projects/freebsd-pkg-archive/files/OpenJFX8-Devel/openjfx8-devel-8.u202.b07_2%2C1~edd6da50e0.txz/download /tmp/openjfx8-devel.txz
+	fetch --no-verify-peer https://sourceforge.net/projects/freebsd-pkg-archive/files/OpenJFX8-Devel/openjfx8-devel-8.u202.b07_2%2C1~edd6da50e0.txz/download -o /tmp/openjfx8-devel.txz
 	pkgInstaIfNe /tmp/openjfx8-devel.txz
 	rm -rf /tmp/openjfx8-devel.txz
 	pkgInstaIfNe minecraft-client
