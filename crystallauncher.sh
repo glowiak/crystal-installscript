@@ -119,13 +119,17 @@ function setupDebian {
 
 function setupFreeBSD {
 	echo "Checking packages... Please enter root password if needed"
-	pkgInstaIfNe openjdk8-jre
-	pkgInstaIfNe openjfx8-devel
+	pkgInstaIfNe openjdk8
+	echo "Installing deleted port openjfx8-devel from pkg(8) archive..."
+	downloadFile https://sourceforge.net/projects/freebsd-pkg-archive/files/OpenJFX8-Devel/openjfx8-devel-8.u202.b07_2%2C1~edd6da50e0.txz/download /tmp/openjfx8-devel.txz
+	pkgInstaIfNe /tmp/openjfx8-devel.txz
 	pkgInstaIfNe minecraft-client
 	
-	echo "After installation launcher don't work, edit config.prop to set up launcher"
+	echo "Applying FreeBSD patch..."
 	echo "customjvmdir.path=/usr/local/share/minecraft-client/minecraft-runtime">"$INSTALL_DIR/bin/config.prop"
-	echo "customjvmdir.use=true">>"$INSTALL_DIR/bin/config.prop"
+	echo "customjvmdir.use=false">>"$INSTALL_DIR/bin/config.prop"
+	echo "customjvmdir_v2.path=/usr/local/share/minecraft-client/minecraft-runtime">"$INSTALL_DIR/bin/config.prop"
+	echo "customjvmdir_v2.use=true">>"$INSTALL_DIR/bin/config.prop"
 }
 
 function setupArch {
