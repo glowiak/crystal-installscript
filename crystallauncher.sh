@@ -129,9 +129,8 @@ function setupFreeBSD {
 }
 
 function setupArch {
-	echo "Playing PacMan..."
-	echo "Installing Java 8 JFX for ArchLinux..."
-	runAsRoot pacman -S java8-openjfx
+	echo "Installing java8-openjfx..."
+	runAsRoot pacman -S --needed --noconfirm java8-openjfx
 }
 
 function distroSpecSetup {
