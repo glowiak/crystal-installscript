@@ -170,7 +170,7 @@ function setupRuntime {
 		echo "";
 		downloadFile "$JRE_X64" "$INSTALL_DIR/.tmp/runtime.tar.gz"
 		echo ""
-	elif [[ ${MACHINE_TYPE} == 'i?86' ]]; # i686 and i486 should be also supported
+	elif [[ ${MACHINE_TYPE} == "i?86" ]]; # i686 and i486 should be also supported
 	then
 		echo "Using 32Bit computer is not recommended, upgrade PC to 64Bit CPU or install 64Bit OS"
 		echo "Downloading 32-bit Java $JAVA_VERSION runtime...";
