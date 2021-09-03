@@ -68,6 +68,7 @@ function osType {
 			which yum > /dev/null && { echo centos; return; }
 			which zypper > /dev/null  && { echo opensuse; return; }
 			which pacman > /dev/null  && { echo archlinux; return; }
+			which apk > /dev/null && { echo alpine; return; }
 			which apt-get > /dev/null  && { echo debian; return; }
 			;;
 		FreeBSD)
@@ -132,6 +133,12 @@ function setupArch {
 	runAsRoot pacman -S --needed --noconfirm java-openjfx
 }
 
+function setupAlpine {
+	echo "Installing JDKs..."
+	runAsRoot apk add openjdk8
+	runAsRoot apk add openjdk16
+}
+
 function distroSpecSetup {
 	OS=`osType`
 	echo "Detected OS: $OS"
@@ -147,6 +154,9 @@ function distroSpecSetup {
 			;;
 		debian)
 			setupDebian;
+			;;
+		alpine)
+			setupAlpine;
 			;;
 		fbsdpkg)
 			setupFreeBSD;
@@ -214,8 +224,10 @@ function installCl {
 	distroSpecSetup
 	
 	if [[ "`uname`" == 'Linux' ]]; then
-		echo "Installing portable Java environment..."
-		setupRuntime
+		if [ ! "$(osType)" == "alpine" ]; then
+			echo "Installing portable Java environment..."
+			setupRuntime
+		fi
 	fi
 	
 	echo "Download latest launcher bootstrap..."
@@ -253,6 +265,13 @@ function runCrystal {
 			fi
 			;;
 		*)
+			if [[ "$(osType)" == "alpine" ]]; then # fix dla alpine, gdzie programy skompilowane z glibc nie dzialaja
+				if [[ $DEBUG -ne 0 ]]; then
+					(cd "$INSTALL_DIR" && exec /usr/lib/jvm/java-1.8-openjdk/jre/bin/java -jar "$INSTALL_DIR/bin/bootstrap.jar")
+				else
+					(cd "$INSTALL_DIR" && exec /usr/lib/jvm/java-1.8-openjdk/jre/bin/java -jar "$INSTALL_DIR/bin/bootstrap.jar") > /dev/null
+				fi
+			fi
 			export JAVA_HOME=$INSTALL_DIR/runtime/jre$JAVA_VERSION
                 	export PATH=$JAVA_HOME/bin:$PATH
 			if [[ $DEBUG -ne 0 ]]; then
